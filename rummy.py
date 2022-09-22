@@ -31,7 +31,6 @@ def printIntro():
 def newDeck(packNumber):
     suits = ["Hearts", "Diamonds", "Spades", "Clubs"]
     values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"]
-    #deck = [Card(value, suit) for value in range(1, 14) for suit in suits]
     deck = []
     i = 0
     while(i < packNumber):
@@ -52,12 +51,12 @@ def createPlayers():
 
     return list
 
+#Logic to simulate a round of the game.
 def round(playersList, dealNumber, packNumber):
 
     #Create deck and discard pile using newDeck function. Discard pile is an empty list.
     deck = newDeck(packNumber)
     discard = []
-    print(deck)
     #When a player is out of cards this will change to True and the round will get ready to end.
     playerOut = False
 
@@ -69,11 +68,30 @@ def round(playersList, dealNumber, packNumber):
     #While player isn't out, iterate over players and let them make their turn.
     while(playerOut == False):
         for player in playersList:
+            viewHand(player)
+            #Check if deck is empty. If so, discard pile becomes the new deck and shuffle.
+            if(len(deck) == 0):
+                deck = discard
+                discard = []
+                deck.shuffle()
+
             #Phase 1 of a turn, pick up from either the stock or the discard pile.
-            stockOrDiscard = stockOrDiscard()
+
+            #Check if there are any cards in the discard pile. If not, player must pick up from deck.
+            if(len(discard) == 0):
+                print("There are no cards in the discard pile, therefore you must draw from the deck.")
+                player.hand.append(deck.pop())
+            else:
+                print(str(discard[len(discard) - 1].value) + " of " + discard[len(discard) - 1].suit + " is on the top of the discard pile.")
+                stockOrDiscard = stockOrDiscard()
+                if (stockOrDiscard == 1):
+                    player.hand.append(deck.pop())
+                elif (stockOrDiscard == 2):
+                    player.hand.append(discard.pop())
 
             #Phase 2 of a turn, choose to meld or lay-off.
-            meldOrLay = meldOrLay()
+            choice = chooseMeldOrLay()
+            meldOrLay(player, choice)
 
             #Phase 3 of a turn, discard one card from the player's hand.
 
@@ -85,17 +103,43 @@ def round(playersList, dealNumber, packNumber):
 def turn():
     pass
 
-def meldOrLay():
+#Helper function to view a player's hand
+def viewHand(player):
+    i = 1
+    for card in player.hand:
+        print(str(i) + ": " + str(card.value) + " of " + card.suit)
+        i += 1
+
+#Gives player the option to pick up from the stock or discard pile.
+def stockOrDiscard():
+    print("Pick up from either the deck or discard pile.")
+    print("Input 1 to pick up from the deck, or 2 for the discard pile")
+    choice = input()
+
+    return choice
+
+#Gives player the option to do a meld or lay-off.
+def chooseMeldOrLay():
     print("You can either meld or lay-off!")
     print("Input 1 to meld, or 2 to lay-off! If you can't do either this turn, input 3.")
     choice = input()
     return choice
 
-def stockOrDiscard():
-    print("Pick up from either the stock or discard pile.")
-    print("Input 1 to pick up from the stock pile, or 2 for the discard pile")
-    choice = input()
-    return choice
+#Helper function for player to play their cards onto the table.
+def meldOrLay(player, choice):
+    if(choice == 1):
+        viewHand(player)
+
+        #Get players choice for cards to meld. Split into an array of numbers and then iterate through them and add those cards to the table meld.
+        print("What cards would you like to play as a meld (input the numbers separated by a comma (,) for the cards you wish to play eg. 1, 2, 4): ")
+        cards = str(input())
+        cards.split(", ")
+
+    elif(choice == 2):
+        pass
+    else:
+        pass
+
 #Main function through which the game will run.
 def main():
 
@@ -120,7 +164,6 @@ def main():
 
     #Check if any player has exceeded the score.
 
-#Logit to simulate a round of the game.
 
 
 
