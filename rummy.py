@@ -2,10 +2,9 @@ import random
 
 #Class for each card in the deck. Contains a suit ("Clubs", "Diamonds", "Spades", "Hearts") and a value (1, 2, 3, 4, Jack, Queen etc.) attriubte.
 class Card:
-    def __init__(self, value, suit):
+    def __init__(self, value, suit,):
         self.value = value
         self.suit = suit
-        self.hand = []
 
 #Class for creating multiple players.
 class Player:
@@ -13,6 +12,9 @@ class Player:
     def __init__(self):
         self.name = self.setName()
         self.score = 0
+        self.hand = []
+        self.table = []
+        self.out = False
 
     def setName(self):
         return input("Please enter your player name!")
@@ -50,7 +52,50 @@ def createPlayers():
 
     return list
 
+def round(playersList, dealNumber, packNumber):
 
+    #Create deck and discard pile using newDeck function. Discard pile is an empty list.
+    deck = newDeck(packNumber)
+    discard = []
+    print(deck)
+    #When a player is out of cards this will change to True and the round will get ready to end.
+    playerOut = False
+
+    #Deal cards to players (based on the number specified in dealNumber).
+    for player in playersList:
+        while(len(player.hand) < dealNumber):
+            player.hand.append(deck.pop())
+
+    #While player isn't out, iterate over players and let them make their turn.
+    while(playerOut == False):
+        for player in playersList:
+            #Phase 1 of a turn, pick up from either the stock or the discard pile.
+            stockOrDiscard = stockOrDiscard()
+
+            #Phase 2 of a turn, choose to meld or lay-off.
+            meldOrLay = meldOrLay()
+
+            #Phase 3 of a turn, discard one card from the player's hand.
+
+            #Check if player is out of cards, if so set the round to end and the scoring to take place within this if statement.
+            if(player.out == True):
+                playerOut = True
+
+#Potential helper function for the options available to each player during their turn.
+def turn():
+    pass
+
+def meldOrLay():
+    print("You can either meld or lay-off!")
+    print("Input 1 to meld, or 2 to lay-off! If you can't do either this turn, input 3.")
+    choice = input()
+    return choice
+
+def stockOrDiscard():
+    print("Pick up from either the stock or discard pile.")
+    print("Input 1 to pick up from the stock pile, or 2 for the discard pile")
+    choice = input()
+    return choice
 #Main function through which the game will run.
 def main():
 
@@ -71,16 +116,12 @@ def main():
 
     #Start turn (return updated list with new player scores).
     #Need to add a condition to check whether or not any player has reached the max score.
-    turn(players, dealNumber, packNumber)
+    round(players, dealNumber, packNumber)
 
     #Check if any player has exceeded the score.
 
 #Logit to simulate a round of the game.
-def turn(playersList, dealNumber, packNumber):
 
-    #Create deck and discard pile using newDeck function. Discard pile is an empty list.
-    deck = newDeck(packNumber)
-    discard = []
 
 
 if __name__ == "__main__": main()
