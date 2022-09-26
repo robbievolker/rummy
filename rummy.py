@@ -90,7 +90,7 @@ def round(playersList, dealNumber, packNumber):
                     player.hand.append(discard.pop())
 
             #Phase 2 of a turn, choose to meld or lay-off.
-            choice = chooseMeldOrLay()
+            choice = int(chooseMeldOrLay())
             meldOrLay(player, choice)
 
             #Phase 3 of a turn, discard one card from the player's hand.
@@ -129,16 +129,31 @@ def chooseMeldOrLay():
 def meldOrLay(player, choice):
     if(choice == 1):
         viewHand(player)
-
         #Get players choice for cards to meld. Split into an array of numbers and then iterate through them and add those cards to the table meld.
         print("What cards would you like to play as a meld (input the numbers separated by a comma (,) for the cards you wish to play eg. 1, 2, 4): ")
         cards = str(input())
-        cards.split(", ")
-
+        cards = [x.strip() for x in cards.split(",")] #Strip whitespace and split on commas to create list of numbers
+        meld = []
+        for num in cards:
+            meld.append(player.hand[int(num)]) #Add the cards in the player's hand to the meld array.
+        #Check if the meld is valid.
+        if(isValidMeld(meld) == True):
+            pass
+        else:
+            print("The cards you have selected are invalid. Please try again.")
     elif(choice == 2):
         pass
     else:
         pass
+
+#Checks to see if the meld is valid.
+def isValidMeld(meld):
+    value0 = meld[0].value
+    suit0 = meld[0].suit
+    for card in meld:
+        if(card.suit != suit0):
+            return False
+    return True
 
 #Main function through which the game will run.
 def main():
