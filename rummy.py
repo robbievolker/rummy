@@ -137,16 +137,32 @@ def meldOrLay(player, choice):
         for num in cards:
             meld.append(player.hand[int(num)]) #Add the cards in the player's hand to the meld array.
         #Check if the meld is valid.
-        if(isValidMeld(meld) == True):
-            pass
+        print("Is the meld a run or a book? (1 for run, 2 for book)")
+        runOrBook = input()
+        if(runOrBook == 1):
+            isValid = isValidRun(meld)
+        if(runOrBook == 2):
+            isValid = isValidBook(meld)
+        if(isValid == True):
+            player.table.append(meld)
         else:
             print("The cards you have selected are invalid. Please try again.")
     elif(choice == 2):
-        pass
+        printPlayerTable(player)
+        print("Which meld would you like to add to?")
     else:
         pass
 
+def printPlayerTable(player):
+    pass
+
 #Checks to see if the meld is valid.
+def isValidRun(meld):
+    return True
+
+def isValidBook(meld):
+    True
+
 def isValidMeld(meld):
     value0 = meld[0].value
     suit0 = meld[0].suit
