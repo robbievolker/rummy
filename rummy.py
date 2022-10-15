@@ -1,8 +1,11 @@
 import random
-
+ACE = 1
+JACK = 11
+QUEEN = 12
+KING = 13
 #Class for each card in the deck. Contains a suit ("Clubs", "Diamonds", "Spades", "Hearts") and a value (1, 2, 3, 4, Jack, Queen etc.) attriubte.
 class Card:
-    def __init__(self, value, suit,):
+    def __init__(self, value, suit):
         self.value = value
         self.suit = suit
 
@@ -30,7 +33,7 @@ def printIntro():
 #Returns the deck as a list.
 def newDeck(packNumber):
     suits = ["Hearts", "Diamonds", "Spades", "Clubs"]
-    values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"]
+    values = [ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, JACK, QUEEN, KING]
     deck = []
     i = 0
     while(i < packNumber):
@@ -161,7 +164,7 @@ def isValidRun(meld):
     return True
 
 def isValidBook(meld):
-    True
+    return True
 
 def isValidMeld(meld):
     value0 = meld[0].value
