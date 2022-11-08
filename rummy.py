@@ -161,6 +161,25 @@ def printPlayerTable(player):
 
 #Checks to see if the meld is valid.
 def isValidRun(meld):
+    #A run must contain a sequence of three or more consecutive cards, all of the same suit. Therefore this must check the suit of all the cards are the same and that they are consecutive.
+    #Check length is valid
+    if(len(meld) < 3):
+        return False
+    #Sort the meld in ascending order according to the value attribute.
+    meld.sort(key=lambda x: x.value)
+
+    #Establish a base value and suit, this will be used to compare the other elements and determine whether or not the meld is valid.
+    value0 = int(meld[0].value) - 1
+    suit0 = meld[0].suit
+
+    #Check whether the run is valid.
+    for card in meld:
+        #Returns false if the suit is not the same.
+        if(card.suit != suit0):
+            return False
+        if(card.value != (value0 + 1)):
+            return False
+        value0 += 1
     return True
 
 def isValidBook(meld):
@@ -172,6 +191,7 @@ def isValidMeld(meld):
     for card in meld:
         if(card.suit != suit0):
             return False
+
     return True
 
 #Main function through which the game will run.
