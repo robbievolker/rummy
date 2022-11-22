@@ -159,12 +159,14 @@ def meldOrLay(player, choice):
 def printPlayerTable(player):
     pass
 
-#Checks to see if the meld is valid.
+#Check to see if run is valid.
 def isValidRun(meld):
     #A run must contain a sequence of three or more consecutive cards, all of the same suit. Therefore this must check the suit of all the cards are the same and that they are consecutive.
-    #Check length is valid
+
+    #Check length is valid.
     if(len(meld) < 3):
         return False
+
     #Sort the meld in ascending order according to the value attribute.
     meld.sort(key=lambda x: x.value)
 
@@ -182,9 +184,22 @@ def isValidRun(meld):
         value0 += 1
     return True
 
+#Check to see if book is valid. Requires three or more cards of the same value.
 def isValidBook(meld):
+
+    #Check if length is valid.
+    if(len(meld) < 3):
+        return False
+
+    value = meld[0].value
+
+    #Check all cards are the same value.
+    for card in meld:
+        if(card.value != value):
+            return False
     return True
 
+#Checks to see if the meld is valid.
 def isValidMeld(meld):
     value0 = meld[0].value
     suit0 = meld[0].suit
